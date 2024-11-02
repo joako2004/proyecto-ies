@@ -1,115 +1,161 @@
+// cambios realizados:
+    // modifico la documentación
+    // se creo un metodo para eliminar vehiculos del vector
+    // se agrego la clase camioneta
+    // se agregaron espacios entre sentencias
+
 #include <iostream>
+#include <string>
 
 using namespace std;
 
-// declarar la clase padre Vehiculo
+// Clase base Vehiculo
 class Vehiculo {
-protected: // atributos de la clase
+protected:
     string marca;
     string modelo;
     int año;
 
-public: // metodos de la clase 
-    Vehiculo(string, string, int); // constructor de la clase Vehiculo
-    virtual ~Vehiculo(); // destructor de la clase Vehiculo
-    virtual void arrancar() const = 0; // const = 0 indica que se trata de metodos abstractos, por lo que las clases hijas deben contar con una implementación del mismo 
+public:
+    // Constructor de Vehiculo
+    Vehiculo(string, string, int);
+    // Destructor virtual para asegurar destrucción adecuada en clases derivadas
+    virtual ~Vehiculo(); 
+    // Métodos virtuales puros para definir las funciones en las clases hijas
+    virtual void arrancar() const = 0;
     virtual void detener() const = 0;
     virtual void mostrarDetalles() const = 0;
     virtual void mostrarDetallesResumido() const = 0;
 };
 
-// Declarar la clase Coche que hereda de la clase Vehiculo
+// Clase Coche derivada de Vehiculo
 class Coche : public Vehiculo {
 private:
-    int num_puertas; // agregar atributos a la clase hija 
+    int num_puertas;
 
 public:
-    Coche(string, string, int, int); // constructor de la clase Coche
-    ~Coche(); // destructor de la clase Coche
-    void arrancar() const override; // const override indica que la clase hija sobreescribirá los metodos de la clase padre
+    // Constructor de Coche
+    Coche(string, string, int, int);
+    // Destructor de Coche
+    ~Coche();
+    // Métodos sobreescritos de la clase base
+    void arrancar() const override;
     void detener() const override;
     void mostrarDetalles() const override;
-    virtual void mostrarDetallesResumido() const override;
+    void mostrarDetallesResumido() const override;
 };
 
-// Declarar la clase Moto que hereda de la clase Vehiculo
+// Clase Moto derivada de Vehiculo
 class Moto : public Vehiculo {
 private:
-    string tipo_moto; // añadir atributos a la clase hija
+    string tipo_moto;
 
 public:
-    Moto(string, string, int, string); // constructor de la clase Moto
-    ~Moto(); // destructor de la clase Moto
-    void arrancar() const override; // const override indica que la clase hija sobreescribirá los metodos de la clase padre
+    // Constructor de Moto
+    Moto(string, string, int, string);
+    // Destructor de Moto
+    ~Moto();
+    // Métodos sobreescritos de la clase base
+    void arrancar() const override;
     void detener() const override;
     void mostrarDetalles() const override;
-    virtual void mostrarDetallesResumido() const override;
+    void mostrarDetallesResumido() const override;
 };
 
-// Implementar constructores y destructores 
-Vehiculo::Vehiculo(string _marca, string _modelo, int _año) {
-    marca = _marca;
-    modelo = _modelo;
-    año = _año;
-}
+// Clase Camioneta derivada de Vehiculo
+class Camioneta : public Vehiculo {
+private:
+    string traccion;
 
+public:
+    // Constructor de Camioneta
+    Camioneta(string, string, int, string);
+    // Destructor de Camioneta
+    ~Camioneta();
+    // Métodos sobreescritos de la clase base
+    void arrancar() const override;
+    void detener() const override;
+    void mostrarDetalles() const override;
+    void mostrarDetallesResumido() const override;
+};
+
+// Implementación del constructor de Vehiculo
+Vehiculo::Vehiculo(string _marca, string _modelo, int _año) : marca(_marca), modelo(_modelo), año(_año) {}
+// Implementación del destructor de Vehiculo
 Vehiculo::~Vehiculo() {}
 
-Coche::Coche(string _marca, string _modelo, int _año, int _num_puertas) : Vehiculo(_marca, _modelo, _año) { // constructor de la clase Coche
-    num_puertas = (_num_puertas > 0) ? _num_puertas : 4;
-}
+// Implementación del constructor de Coche
+Coche::Coche(string _marca, string _modelo, int _año, int _num_puertas) : Vehiculo(_marca, _modelo, _año), num_puertas((_num_puertas > 0) ? _num_puertas : 4) {}
+// Implementación del destructor de Coche
+Coche::~Coche() {}
 
-Coche::~Coche() { // destructor de la clase Coche
-}
+// Implementación del constructor de Moto
+Moto::Moto(string _marca, string _modelo, int _año, string _tipo_moto) : Vehiculo(_marca, _modelo, _año), tipo_moto(_tipo_moto) {}
+// Implementación del destructor de Moto
+Moto::~Moto() {}
 
-Moto::Moto(string _marca, string _modelo, int _año, string _tipo_moto) : Vehiculo(_marca, _modelo, _año) { // constructor de la clase Moto
-    tipo_moto = _tipo_moto;
-}
+// Implementación del constructor de Camioneta
+Camioneta::Camioneta(string _marca, string _modelo, int _año, string _traccion) : Vehiculo(_marca, _modelo, _año), traccion(_traccion) {}
+// Implementación del destructor de Camioneta
+Camioneta::~Camioneta() {}
 
-Moto::~Moto() { // destructor de la clase Moto
-}
-
-// Implementar funciones para las clases hijas
+// Métodos de la clase Coche
 void Coche::arrancar() const {
-    cout << "Coche " << marca << " " << modelo << " arrancando." << endl;
+    cout << "Coche " << marca << " " << modelo << " arrancando.\n";
 }
 
 void Coche::detener() const {
-    cout << "Coche " << marca << " " << modelo << " detenido." << endl;
+    cout << "Coche " << marca << " " << modelo << " detenido.\n";
 }
 
 void Coche::mostrarDetalles() const {
-    cout << "Coche - Marca: " << marca << "\n, Modelo: " << modelo << "\n, Año: " << año 
-         << "\n, Numero de puertas: " << num_puertas << endl;
+    cout << "Coche:\nMarca: " << marca << "\nModelo: " << modelo << "\nAño: " << año << "\nNumero de puertas: " << num_puertas << "\n";
 }
 
 void Coche::mostrarDetallesResumido() const {
-    cout << marca << " " << modelo;
+    cout << marca << " " << modelo << "\n";
 }
 
+// Métodos de la clase Moto
 void Moto::arrancar() const {
-    cout << "Moto " << marca << " " << modelo << " arrancando." << endl;
+    cout << "Moto " << marca << " " << modelo << " arrancando.\n";
 }
 
 void Moto::detener() const {
-    cout << "Moto " << marca << " " << modelo << " detenida." << endl;
+    cout << "Moto " << marca << " " << modelo << " detenida.\n";
 }
 
 void Moto::mostrarDetalles() const {
-    cout << "Moto - Marca: " << marca << "\n, Modelo: " << modelo << "\n, Año: " << año 
-         << "\n, Tipo: " << tipo_moto << endl;
+    cout << "Moto:\nMarca: " << marca << "\nModelo: " << modelo << "\nAño: " << año << "\nTipo: " << tipo_moto << "\n";
 }
 
 void Moto::mostrarDetallesResumido() const {
-    cout << marca << " " << modelo;
+    cout << marca << " " << modelo << "\n";
 }
 
-// Función para crear un vehículo
-Vehiculo* crearVehiculo(string tipo_vehiculo) {
-    string marca, modelo, tipo_moto; // declarar los atributos que tomaran los objetos
-    int año, num_puertas; // declarar los atributos que tomaran los objetos
+// Métodos de la clase Camioneta
+void Camioneta::arrancar() const {
+    cout << "Camioneta " << marca << " " << modelo << " arrancando.\n";
+}
 
-    if (tipo_vehiculo == "Moto" || tipo_vehiculo == "moto") { // pedirle los atributos al usuario
+void Camioneta::detener() const {
+    cout << "Camioneta " << marca << " " << modelo << " detenida.\n";
+}
+
+void Camioneta::mostrarDetalles() const {
+    cout << "Camioneta:\nMarca: " << marca << "\nModelo: " << modelo << "\nAño: " << año << "\nTracción: " << traccion << "\n";
+}
+
+void Camioneta::mostrarDetallesResumido() const {
+    cout << marca << " " << modelo << "\n";
+}
+
+// Función para crear un vehículo según el tipo especificado
+Vehiculo* crearVehiculo(string tipo_vehiculo) {
+    string marca, modelo, tipo_moto, traccion;
+    int año, num_puertas;
+
+    if (tipo_vehiculo == "Moto" || tipo_vehiculo == "moto") {
         cout << "Ingrese la marca de su moto: ";
         cin >> marca;
         cout << "Ingrese el modelo de su moto: ";
@@ -119,8 +165,7 @@ Vehiculo* crearVehiculo(string tipo_vehiculo) {
         cout << "Ingrese el año de su moto: ";
         cin >> año;
 
-        return new Moto(marca, modelo, año, tipo_moto); // crear el objeto con los atributos ingresados por el usuario
-
+        return new Moto(marca, modelo, año, tipo_moto);
     } else if (tipo_vehiculo == "Coche" || tipo_vehiculo == "coche") {
         cout << "Ingrese la marca de su coche: ";
         cin >> marca;
@@ -132,71 +177,104 @@ Vehiculo* crearVehiculo(string tipo_vehiculo) {
         cin >> año;
 
         return new Coche(marca, modelo, año, num_puertas);
+    } else if (tipo_vehiculo == "Camioneta" || tipo_vehiculo == "camioneta") {
+        cout << "Ingrese la marca de su camioneta: ";
+        cin >> marca;
+        cout << "Ingrese el modelo de su camioneta: ";
+        cin >> modelo;
+        cout << "Ingrese el tipo de tracción de su camioneta: ";
+        cin >> traccion;
+        cout << "Ingrese el año de su camioneta: ";
+        cin >> año;
+
+        return new Camioneta(marca, modelo, año, traccion);
     }
 
-    cout << "Tipo de vehiculo no valido." << endl;
-    return nullptr; // Retorna nullptr si el tipo es inválido
+    cout << "Tipo de vehiculo no valido.\n";
+    return nullptr;
 }
 
-void garage_vehiculos(int cantidad_vehiculos) {
-    Vehiculo** vector = new Vehiculo*[cantidad_vehiculos];
-
+// Función para gestionar los vehículos en el garage
+void garage_vehiculos(Vehiculo** vector, int cantidad_vehiculos) {
     for (int i = 0; i < cantidad_vehiculos; i++) {
         string tipo_vehiculo;
-        cout << "Que tipo de vehiculo desea alojar en su garage: (Coche, Moto) ";
+        cout << "Que tipo de vehiculo desea alojar en su garage: (Coche, Moto, Camioneta) ";
         cin >> tipo_vehiculo;
 
-        // verificar si el tipo de vehiculo es valido
         Vehiculo* nuevo_vehiculo = crearVehiculo(tipo_vehiculo);
         if (nuevo_vehiculo) {
             vector[i] = nuevo_vehiculo;
         } else {
-            cout << "Vehículo no creado. Intente de nuevo." << endl;
+            cout << "Vehículo no creado. Intente de nuevo.\n";
             i--; // Reintentar si el tipo es incorrecto
         }
     }
 
-    cout << "vamos a recorrer tu garage: " << endl;
-
+    cout << "\nVamos a recorrer tu garage:\n";
     string opcion;
 
-    // recorrer el garage
     for (int i = 0; i < cantidad_vehiculos; i++) {
-    cout << i + 1 << ". ";
-    vector[i]->mostrarDetallesResumido();
-    cout << "\n";
+        cout << i + 1 << ". ";
+        vector[i]->mostrarDetallesResumido();
+        cout << "¿Deseas ver los detalles del vehiculo? (si/no): ";
+        cin >> opcion;
 
-    cout << "¿Deseas ver los detalles del vehiculo? (si/no): ";
+        if (opcion == "si") {
+            vector[i]->mostrarDetalles();
+            cout << "¿Quieres arrancar el vehiculo? (si/no): ";
+            cin >> opcion;
+            if (opcion == "si") {
+                vector[i]->arrancar();
+            }
+        }
+    }
+}
+
+// Función para limpiar el garage de vehículos y liberar memoria
+void limpiar_vehiculos(Vehiculo** vector, int cantidad_vehiculos) {
+    string opcion;
+    int num_vehiculo;
+
+    cout << "\n¿Desea eliminar alguno de los vehículos almacenados? (si/no): ";
     cin >> opcion;
 
     if (opcion == "si") {
-        vector[i]->mostrarDetalles();
-        opcion.clear(); // Limpia la variable opcion para reutilizarla
+        cout << "Ingrese el número del vehículo que desea eliminar (1-" << cantidad_vehiculos << "): ";
+        cin >> num_vehiculo;
+        num_vehiculo--;
 
-        cout << "¿Quieres arrancar el vehiculo? (si/no): ";
-        cin >> opcion; // Recibe nuevamente el valor para la opción
+        if (num_vehiculo >= 0 && num_vehiculo < cantidad_vehiculos && vector[num_vehiculo]) {
+            delete vector[num_vehiculo];
+            vector[num_vehiculo] = nullptr;
+            cout << "Vehículo eliminado del garage.\n";
+        } else {
+            cout << "Número de vehículo inválido.\n";
+        }
+    }
 
-        if (opcion == "si") {
-            vector[i]->arrancar(); // Arranca el vehículo
-        } 
+    for (int i = 0; i < cantidad_vehiculos; i++) {
+        if (vector[i]) {
+            delete vector[i];
+        }
     }
-    }
-    delete[] vector; // liberar el espacio de memoria del vector
 }
 
-
+// Función principal
 int main() {
-    int cantidadVehiculos; // declarar la cantidad de vehiculo ha almacenar
+    int cantidad_vehiculos;
 
-    cout << "Vamos a construir el garage de tus sueños." << endl;   
-    cout << "Ingrese la cantidad de vehiculos que quiere para su garage: ";
-    cin >> cantidadVehiculos; // leer la cantidad de vehiculos por consola
+    cout << "Cuántos vehículos desea almacenar en su garage?: ";
+    cin >> cantidad_vehiculos;
 
-    garage_vehiculos(cantidadVehiculos); // hacer la llamada a la función
+    Vehiculo** vector_vehiculos = new Vehiculo*[cantidad_vehiculos];
+    for (int i = 0; i < cantidad_vehiculos; i++) {
+        vector_vehiculos[i] = nullptr;
+    }
+
+    garage_vehiculos(vector_vehiculos, cantidad_vehiculos);
+    limpiar_vehiculos(vector_vehiculos, cantidad_vehiculos);
+
+    delete[] vector_vehiculos;
 
     return 0;
 }
-
-//! PARA EL FINAL CREAR CLASES COMO CAMIONETA, PUEDE TENER COMO ATRIBUTOS EL TIPO DE TRACCIÓN O COCHE ELECTRICO QUE PUEDE TENER COMO ATRIBUTO EL TIEMPO DE CARGA
-//! probar agregar interface grafica
-//! crear un metodo para eliminar vehiculos
