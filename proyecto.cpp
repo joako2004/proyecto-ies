@@ -79,6 +79,37 @@ public:
     void mostrarDetallesResumido() const override;
 };
 
+class Bote : public Vehiculo {
+private:
+    int cantidad_de_personas;
+
+public:
+    // Constructor de Bote
+    Bote(string, string, int, int);
+    // Destructor de Bote
+    ~Bote();
+    // Métodos sobreescritos de la clase base
+    void arrancar() const override;
+    void detener() const override;
+    void mostrarDetalles() const override;
+    void mostrarDetallesResumido() const override;
+};
+
+// Clase CocheElectrico derivada de Vehiculo
+class CocheElectrico : public Vehiculo {
+private:
+    int tiempo_carga;
+
+public:
+    CocheElectrico(string, string, int, int);
+    ~CocheElectrico();
+    void arrancar() const override;
+    void detener() const override;
+    void mostrarDetalles() const override;
+    void mostrarDetallesResumido() const override;
+};
+
+
 // Implementación del constructor de Vehiculo
 Vehiculo::Vehiculo(string _marca, string _modelo, int _año) : marca(_marca), modelo(_modelo), año(_año) {}
 // Implementación del destructor de Vehiculo
@@ -98,6 +129,16 @@ Moto::~Moto() {}
 Camioneta::Camioneta(string _marca, string _modelo, int _año, string _traccion) : Vehiculo(_marca, _modelo, _año), traccion(_traccion) {}
 // Implementación del destructor de Camioneta
 Camioneta::~Camioneta() {}
+
+// Implementación del constructor de Bote
+Bote::Bote(string _marca, string _modelo, int _año, int _cantidad_de_personas) : Vehiculo(_marca, _modelo, _año), cantidad_de_personas(_cantidad_de_personas) {}
+// Implementación del destructor de Bote
+Bote::~Bote() {}
+
+CocheElectrico::CocheElectrico(string _marca, string _modelo, int _año, int _tiempo_carga) 
+    : Vehiculo(_marca, _modelo, _año), tiempo_carga(_tiempo_carga) {}
+
+CocheElectrico::~CocheElectrico() {}
 
 // Métodos de la clase Coche
 void Coche::arrancar() const {
@@ -150,10 +191,47 @@ void Camioneta::mostrarDetallesResumido() const {
     cout << marca << " " << modelo << "\n";
 }
 
+// Métodos de la clase Bote
+void Bote::arrancar() const {
+    cout << "Bote " << marca << " " << modelo << " arrancando.\n";
+}
+
+void Bote::detener() const {
+    cout << "Bote " << marca << " " << modelo << " detenido.\n";
+}
+
+void Bote::mostrarDetalles() const {
+    cout << "Bote:\nMarca: " << marca << "\nModelo: " << modelo << "\nAño: " << año << "\ncapacidad de tripulantes: " << cantidad_de_personas << "\n";
+}
+
+void Bote::mostrarDetallesResumido() const {
+    cout << marca << " " << modelo << "\n";
+}
+
+// Métodos de la clase CocheElectrico
+// Métodos de la clase CocheElectrico
+void CocheElectrico::arrancar() const {
+    cout << "CocheElectrico " << marca << " " << modelo << " arrancando silenciosamente.\n";
+}
+
+void CocheElectrico::detener() const {
+    cout << "CocheElectrico " << marca << " " << modelo << " detenido.\n";
+}
+
+// Implementación correcta del método mostrarDetalles
+void CocheElectrico::mostrarDetalles() const {
+    cout << "CocheElectrico:\nMarca: " << marca << "\nModelo: " << modelo << "\nAño: " << año
+         << "\nTiempo de carga estimado: " << tiempo_carga << " horas\n";
+}
+
+void CocheElectrico::mostrarDetallesResumido() const {
+    cout << marca << " " << modelo << "\n";
+}
+
 // Función para crear un vehículo según el tipo especificado
 Vehiculo* crearVehiculo(string tipo_vehiculo) {
     string marca, modelo, tipo_moto, traccion;
-    int año, num_puertas;
+    int año, num_puertas, tiempo_carga, cantidad_personas;
 
     if (tipo_vehiculo == "Moto" || tipo_vehiculo == "moto") {
         cout << "Ingrese la marca de su moto: ";
@@ -166,6 +244,7 @@ Vehiculo* crearVehiculo(string tipo_vehiculo) {
         cin >> año;
 
         return new Moto(marca, modelo, año, tipo_moto);
+
     } else if (tipo_vehiculo == "Coche" || tipo_vehiculo == "coche") {
         cout << "Ingrese la marca de su coche: ";
         cin >> marca;
@@ -177,6 +256,7 @@ Vehiculo* crearVehiculo(string tipo_vehiculo) {
         cin >> año;
 
         return new Coche(marca, modelo, año, num_puertas);
+
     } else if (tipo_vehiculo == "Camioneta" || tipo_vehiculo == "camioneta") {
         cout << "Ingrese la marca de su camioneta: ";
         cin >> marca;
@@ -188,7 +268,32 @@ Vehiculo* crearVehiculo(string tipo_vehiculo) {
         cin >> año;
 
         return new Camioneta(marca, modelo, año, traccion);
-    }
+        
+    } else if (tipo_vehiculo == "Coche Electrico" || tipo_vehiculo == "coche electrico" || tipo_vehiculo == "cocheelectrico") {
+        cout << "Ingrese la marca de su coche: ";
+        cin >> marca;
+        cout << "Ingrese el modelo de su coche: ";
+        cin >> modelo;
+        cout << "Ingrese el tiempo estimado de carga de su coche: ";
+        cin >> traccion;
+        cout << "Ingrese el año de su coche: ";
+        cin >> año;
+
+        return new CocheElectrico(marca, modelo, año, tiempo_carga);
+
+    } else if (tipo_vehiculo == "Bote" || tipo_vehiculo == "bote") {
+        cout << "Ingrese la marca de su bote: ";
+        cin >> marca;
+        cout << "Ingrese el modelo de su bote: ";
+        cin >> modelo;
+        cout << "Ingrese la canpacidad de personas de su bote: ";
+        cin >> traccion;
+        cout << "Ingrese el año de su bote: ";
+        cin >> año;
+
+        return new Bote(marca, modelo, año, cantidad_personas);
+
+        }
 
     cout << "Tipo de vehiculo no valido.\n";
     return nullptr;
@@ -198,7 +303,7 @@ Vehiculo* crearVehiculo(string tipo_vehiculo) {
 void garage_vehiculos(Vehiculo** vector, int cantidad_vehiculos) {
     for (int i = 0; i < cantidad_vehiculos; i++) {
         string tipo_vehiculo;
-        cout << "Que tipo de vehiculo desea alojar en su garage: (Coche, Moto, Camioneta) ";
+        cout << "Que tipo de vehiculo desea alojar en su garage: (Coche, Moto, Camioneta, Coche electrico, Bote) ";
         cin >> tipo_vehiculo;
 
         Vehiculo* nuevo_vehiculo = crearVehiculo(tipo_vehiculo);
@@ -275,6 +380,8 @@ int main() {
     limpiar_vehiculos(vector_vehiculos, cantidad_vehiculos);
 
     delete[] vector_vehiculos;
+
+    cout << "Gracias por usar nuestros servicios" << endl;
 
     return 0;
 }
