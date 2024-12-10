@@ -281,19 +281,7 @@ Vehiculo* crearVehiculo(string tipo_vehiculo) {
 
         return new CocheElectrico(marca, modelo, año, tiempo_carga);
 
-    } else if (tipo_vehiculo == "Bote" || tipo_vehiculo == "bote") {
-        cout << "Ingrese la marca de su bote: ";
-        cin >> marca;
-        cout << "Ingrese el modelo de su bote: ";
-        cin >> modelo;
-        cout << "Ingrese la canpacidad de personas de su bote: ";
-        cin >> traccion;
-        cout << "Ingrese el año de su bote: ";
-        cin >> año;
-
-        return new Bote(marca, modelo, año, cantidad_personas);
-
-        }
+    }
 
     cout << "Tipo de vehiculo no valido.\n";
     return nullptr;
@@ -303,7 +291,7 @@ Vehiculo* crearVehiculo(string tipo_vehiculo) {
 void garage_vehiculos(Vehiculo** vector, int cantidad_vehiculos) {
     for (int i = 0; i < cantidad_vehiculos; i++) {
         string tipo_vehiculo;
-        cout << "Que tipo de vehiculo desea alojar en su garage: (Coche, Moto, Camioneta, Coche electrico, Bote) ";
+        cout << "Que tipo de vehiculo desea alojar en su garage: (Coche, Moto, Camioneta, Coche electrico) ";
         cin >> tipo_vehiculo;
 
         Vehiculo* nuevo_vehiculo = crearVehiculo(tipo_vehiculo);
